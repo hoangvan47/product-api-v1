@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ProductStatus {
+  DRAFT
+  LIVE
+  ACTIVE
+  OUT_OF_STOCK
+  ARCHIVED
+}
+
+enum ChatMessageType {
+  TEXT
+  PRODUCT
+  SYSTEM
+}
+
+enum OrderSource {
+  LIVE
+  STORE
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELED
+}
+
+model User {
+  id           Int           @id @default(autoincrement())
+  email        String        @unique
+  password     String
+  refreshToken String?
+  products     Product[]
+  orders       Order[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Product {
+  id            Int               @id @default(autoincrement())
+  title         String
+  description   String
+  price         Float
+  imageUrl      String
+  status        ProductStatus     @default(ACTIVE)
+  sellerId      Int
+  seller        User              @relation(fields: [sellerId], references: [id])
+  liveMentions  LiveProductMention[]
+  orderItems    OrderItem[]
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+}
+
+model LiveChatMessage {
+  id            Int             @id @default(autoincrement())
+  roomId        String
+  senderUserId  Int?
+  senderLabel   String?
+  type          ChatMessageType @default(TEXT)
+  message       String
+  productId     Int?
+  productData   Json?
+  createdAt     DateTime        @default(now())
+}
+
+model LiveProductMention {
+  id          Int      @id @default(autoincrement())
+  roomId      String
+  productId   Int
+  sellerId    Int
+  product     Product  @relation(fields: [productId], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+model Order {
+  id          Int         @id @default(autoincrement())
+  buyerId     Int
+  buyer       User        @relation(fields: [buyerId], references: [id])
+  source      OrderSource @default(STORE)
+  roomId      String?
+  status      OrderStatus @default(PENDING)
+  totalAmount Float
+  items       OrderItem[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model OrderItem {
+  id        Int      @id @default(autoincrement())
+  orderId   Int
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Float
+  createdAt DateTime @default(now())
+}
