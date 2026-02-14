@@ -143,8 +143,11 @@ export class LivestreamService {
 
     const room = await this.requireRoom(roomId);
     if (participant.role === 'seller' && room.status !== 'ended') {
-      await this.endRoom(room);
-      return { room, endedByDisconnect: true, participant };
+      const sellerCount = await this.countParticipantsByRole(roomId, 'seller');
+      if (sellerCount === 0) {
+        await this.endRoom(room);
+        return { room, endedByDisconnect: true, participant };
+      }
     }
 
     room.viewerCount = await this.getViewerCountFromParticipants(roomId);
@@ -218,6 +221,14 @@ export class LivestreamService {
     return participants.reduce((count, raw) => {
       const participant: Participant = JSON.parse(raw);
       return participant.role === 'viewer' ? count + 1 : count;
+    }, 0);
+  }
+
+  private async countParticipantsByRole(roomId: string, role: ParticipantRole) {
+    const participants = await this.redisService.redis.hvals(this.participantsKey(roomId));
+    return participants.reduce((count, raw) => {
+      const participant: Participant = JSON.parse(raw);
+      return participant.role === role ? count + 1 : count;
     }, 0);
   }
 

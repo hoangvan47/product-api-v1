@@ -19,13 +19,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
+          cache: yarn
+          cache-dependency-path: yarn.lock
 
       - name: Install dependencies
-        run: npm ci
+        run: yarn install --frozen-lockfile
 
       - name: Prisma generate
-        run: npm run prisma:generate
+        run: yarn prisma:generate
 
       - name: Build
-        run: npm run build
+        run: yarn build
