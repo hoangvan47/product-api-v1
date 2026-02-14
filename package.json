@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nest start",
+    "prestart:dev": "prisma generate && prisma migrate deploy",
     "start:dev": "nest start --watch",
     "build": "nest build",
     "prisma:generate": "prisma generate",
