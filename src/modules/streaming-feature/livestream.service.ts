@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { RedisService } from '../redis/redis.service';
+import { RedisService } from '../@shared/redis/redis.service';
 
 type RoomStatus = 'active' | 'ended';
 type ParticipantRole = 'seller' | 'viewer';

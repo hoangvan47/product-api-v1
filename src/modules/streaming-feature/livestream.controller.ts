@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Public } from '../common/decorators/public.decorator';
+import { Public } from '../../@core/decorators/public.decorator';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { JoinRoomDto } from './dto/join-room.dto';
 import { LivestreamService } from './livestream.service';

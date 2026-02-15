@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Req } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Public } from '../common/decorators/public.decorator';
+import { Public } from '../../@core/decorators/public.decorator';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
