@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../@shared/prisma/prisma.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 
 @Injectable()

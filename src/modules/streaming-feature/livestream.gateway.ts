@@ -9,7 +9,7 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../@shared/prisma/prisma.service';
 import { LivestreamService } from './livestream.service';
 
 type JoinRoomEvent = {

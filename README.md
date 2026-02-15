@@ -11,10 +11,10 @@
 ```bash
 cd /Users/admin/Desktop/run-with-codeX/backend
 cp .env.example .env
-npm install
+yarn install
 ```
 
-`.env` chính:
+Main `.env` values:
 - `DATABASE_URL=postgresql://postgres:postgres@localhost:5432/code-x?schema=public`
 - `REDIS_HOST=localhost`
 - `REDIS_PORT=6379`
@@ -23,9 +23,9 @@ npm install
 ## Run
 ```bash
 npx prisma generate
-npm run prisma:migrate -- --name init
-npm run prisma:seed
-npm run start:dev
+yarn prisma:migrate --name init
+yarn prisma:seed
+yarn start:dev
 ```
 
 ## Endpoints
